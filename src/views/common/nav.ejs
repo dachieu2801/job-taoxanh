@@ -1,20 +1,174 @@
-<header>
-  <nav class="bg-gray-200 shadow-lg">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 font-bold">
-      <div class="relative flex h-16 items-center justify-between">
-        <div class="text-lg">
-          <!-- ADD LOGO HERE -->
-          <span class="text-primary">GREEN</span>&nbsp;APPLE
-        </div>
-        <div class="flex gap-5">
-          <a class="p-2 cursor-pointer">Pay check</a>
-          <a class="p-2 cursor-pointer">Unlock Devices</a>
-          <a
-            class="p-2 cursor-pointer border-solid border-2 border-black rounded-xl"
-            >Contact Us</a
-          >
+<header id="nav" class="absolute inset-x-0 top-0 z-50 border-b shadow-lg">
+  <nav
+    class="flex items-center justify-between p-6 lg:px-8"
+    aria-label="Global"
+  >
+    <div class="flex lg:flex-1">
+      <a href="#" class="text-4xl font-bold">
+        <span class="text-primary">GREEN</span>&nbsp;APPLE
+      </a>
+    </div>
+    <div class="flex lg:hidden">
+      <button
+        type="button"
+        @click="toggleMobileMenu"
+        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+      >
+        <span class="sr-only">Open main menu</span>
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="hidden lg:flex lg:gap-x-12">
+      <a href="#" class="text-md font-semibold leading-6 text-gray-900 p-3"
+        >Thanh toán</a
+      >
+      <a href="#" class="text-md font-semibold leading-6 text-gray-900 p-3"
+        >Mở khóa</a
+      >
+      <a
+        href="#"
+        class="text-md font-semibold leading-6 text-gray-900 border-gray-900 border-2 border-solid p-3"
+        >Liên hệ</a
+      >
+    </div>
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <div class="relative mt-2 rounded-md shadow-sm">
+        <input
+          type="text"
+          name="search"
+          id="search"
+          class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+          placeholder="Tra cứu lịch sử"
+        />
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2">
+          <button class="p-2" @click="notyfSuccess">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20"
+              width="20"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="#008060"
+                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
   </nav>
+  <!-- Mobile menu, show/hide based on menu open state -->
+  <div
+    v-if="isMobileMenuOpen"
+    class="lg:hidden"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div
+      class="fixed inset-0 z-50 bg-gray-500 opacity-50"
+      @click="toggleMobileMenu"
+    ></div>
+    <div
+      class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+    >
+      <div class="flex items-center justify-between">
+        <a href="#" class="-m-1.5 p-1.5">
+          <span class="sr-only">Your Company</span>
+          <img
+            class="h-8 w-auto"
+            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+            alt=""
+          />
+        </a>
+        <button
+          type="button"
+          @click="toggleMobileMenu"
+          class="-m-2.5 rounded-md p-2.5 text-gray-700"
+        >
+          <span class="sr-only">Close menu</span>
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="mt-6 flow-root">
+        <div class="-my-6 divide-y divide-gray-500/10">
+          <div class="space-y-2 py-6">
+            <a
+              href="#"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >Product</a
+            >
+            <a
+              href="#"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >Features</a
+            >
+            <a
+              href="#"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >Marketplace</a
+            >
+            <a
+              href="#"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >Company</a
+            >
+          </div>
+          <div class="py-6">
+            <a
+              href="#"
+              class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >Log in</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
+
+<script>
+  const navApp = Vue.createApp({
+    data() {
+      return {
+        isMobileMenuOpen: false,
+      };
+    },
+    methods: {
+      toggleMobileMenu() {
+        this.isMobileMenuOpen = !this.isMobileMenuOpen;
+      },
+      notyfSuccess() {
+        alert("Success message!"); // You can replace this with notyf or any notification library
+      },
+    },
+  });
+
+  navApp.mount("#nav");
+</script>
