@@ -1,9 +1,11 @@
 import { Application } from 'express';
 
-import userRoute from './UserRoute';
+import userRoute from './user/index';
+import adminRoute from './admin/index';
 
 function route(app: Application) {
-    app.use('api/v1/user',userRoute);
+    app.use('/',userRoute);
+    app.use('/admin',adminRoute);
 }
 
 export default route;
