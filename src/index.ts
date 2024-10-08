@@ -50,7 +50,14 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/admin", (req: Request, res: Response) => {
   const greeting = req.t("greeting");
   console.log(greeting);
-  res.render("admin/index", { title: "Admin", t: req.t.bind(req.i18n) });
+  res.render("admin/auth", { title: "Admin", t: req.t.bind(req.i18n) });
+});
+
+app.get("admin/dashboard", (req: Request, res: Response) => {
+  res.render("admin/dashboard", {
+    title: "Dashboard",
+    t: req.t.bind(req.i18n),
+  });
 });
 
 // Định nghĩa một route
