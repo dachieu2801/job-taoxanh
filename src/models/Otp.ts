@@ -3,6 +3,9 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface OtpDocument extends Document {
   phone: string;
   otp: string;
+  expired_at: Date;
+  created_at: Date;
+  updated_at: Date;
 }
 
 const OtpSchema: Schema<OtpDocument> = new Schema({
@@ -19,7 +22,13 @@ const OtpSchema: Schema<OtpDocument> = new Schema({
   otp: {
     type: String,
     required: [true, 'OTP is required'],
-  }
+  },
+  expired_at:   {
+    type: Date,
+    required: [true, 'OTP is required'],
+  },
+}, {
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } // Tự động thêm timestamps
 });
 
 // Tạo model từ schema

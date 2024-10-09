@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 
 const router: Router = Router();
 
+// router.get("/", AdminController.indexAdmin);
 router.get("/", (req: Request, res: Response) => {
   const greeting = req.t("greeting");
   console.log(greeting);
@@ -19,5 +20,7 @@ router.get("/transactions", (req: Request, res: Response) => {
     t: req.t.bind(req.i18n),
   });
 });
+
+// router.post("/service", AdminController.createService);
 
 export default router;

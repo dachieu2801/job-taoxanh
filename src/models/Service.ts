@@ -3,15 +3,16 @@ import mongoose, { Document, Schema } from 'mongoose';
 const ServiceSchema: Schema = new Schema({
   name: {
     type: String,
-    required: true,
+    required:  [true, 'Name is required'],
   },
   price: {
     type: Number,
-    required: true,
+    required:  [true, 'Price is required'],
   },
   code: {
     type: String,
-    required: true,
+    required:  [true, 'Code is required'],
+    unique:  [true, 'Code is unique'], 
   },
   api: {
     type: String,
@@ -23,6 +24,8 @@ const ServiceSchema: Schema = new Schema({
     type: String,
     required: true,
   },
+}, {
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } // Tự động thêm timestamps
 });
 
 // Tạo model từ schema
