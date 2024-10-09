@@ -44,7 +44,7 @@ route(app);
 app.post('/upload-imeis', (req: Request, res: Response) => {
   upload(req, res, (err) => {
     if (err) {
-      res.status(422).json({
+      return res.status(422).json({
         status: 'failed',
         message: 'Error: An error occurred while uploading the file.'
       });
@@ -57,11 +57,10 @@ app.post('/upload-imeis', (req: Request, res: Response) => {
       });
     }
 
-    // Sử dụng Tesseract.js để xử lý OCR
     Tesseract.recognize(
-      req.file.buffer, // Truyền buffer của file ảnh
+      req.file.buffer, 
       'eng',
-      { logger: m => console.log(m) } // Log quá trình nhận diện
+      { logger: m => console.log(m) } 
     ).then(({ data: { text } }) => {
       const regex = /IMEI\d*\s+((?:\d+\s*){15})/g;
 
@@ -75,10 +74,6 @@ app.post('/upload-imeis', (req: Request, res: Response) => {
           imeis.push(concatenatedNumbers);
         }
       }
-      // In kết quả
-      console.log('imeisimeisimeisimeis', imeis);
-
-
       return res.status(200).json({
         status: 'success',
         data: imeis

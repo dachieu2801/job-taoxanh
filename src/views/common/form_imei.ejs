@@ -1,13 +1,13 @@
 <div class="mt-10" id="select">
   <label id="listbox-label" class="block text-sm font-medium leading-6 text-gray-900"></label>
-  <div class="relative mt-8">
+  <div class="relative mt-8 ">
     <input
       class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
       type="text" v-model="imei" id="imei" placeholder="Nhập mã IMEI Để tra cứu!!" @blur="validateImei"
       @focus="hideErrorMessage" />
     <input
       class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-      type="file" @change="handleFileUpload" id="imageInput" />
+      type="file" @change="handleFileUpload" />
     <p v-if="imeis.length" class="text-sm text-red-500 mt-2 ">{{ JSON.stringify(imeis) }}</p>
 
   </div>
@@ -192,7 +192,7 @@
                 })
                   .then((result) => {
                     if (result.isConfirmed) {
-                      window.location.href = '/checkout';
+                      window.location.href = `/checkout/${seft.phone}`;
                     }
                   })
               }

@@ -68,6 +68,7 @@ const OtpController = {
             sendErrorResponse(res, error);
         }
     },
+  
 }
 
 export default OtpController;
