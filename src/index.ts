@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import connectDB from "./shared/database/database";
 import route from "./routes/index";
 import path from "path";
-import i18nConfig from "./shared/i18n/i18n";  // Import the new i18n configuration
+import i18nConfig from "./shared/i18n/i18n"; // Import the new i18n configuration
 import i18nextMiddleware from "i18next-http-middleware";
 
 dotenv.config();
@@ -29,18 +29,7 @@ app.use((req: Request, res: Response, next) => {
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "../public")));
 app.set("views", path.join(__dirname, "views"));
-app.get("/admin", (req: Request, res: Response) => {
-  const greeting = req.t("greeting");
-  console.log(greeting);
-  res.render("admin/auth", { title: "Admin", t: req.t.bind(req.i18n) });
-});
 
-app.get("admin/dashboard", (req: Request, res: Response) => {
-  res.render("admin/dashboard", {
-    title: "Dashboard",
-    t: req.t.bind(req.i18n),
-  });
-});
 // Định nghĩa một route
 route(app);
 
