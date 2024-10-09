@@ -22,8 +22,16 @@ const UserController = {
     },
     checkout: async(req: Request, res: Response) => {
         const { phone } = req.params;
-        res.json({
-            phone})
+        try {
+            const cart = await Cart.findOne({ phone, status: 'new' })
+                .sort({ created_at: -1 }) 
+                .exec();
+            res.json({ cart })
+            return 
+        } catch (error) {
+            sendErrorResponse(res, error);
+            return
+        }
     }
 }
 
