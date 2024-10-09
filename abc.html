@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard Layout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 h-screen">
+    <!-- Top Header -->
+    <header
+      class="bg-white shadow fixed top-0 left-0 w-full flex items-center justify-between px-6 h-16"
+    >
+      <!-- Logo Section -->
+      <div class="w-64 text-left font-bold text-xl">
+        <a href="#">Logo</a>
+      </div>
+      <!-- Active Route Section -->
+      <div class="text-left text-gray-700">
+        <span>Active Route</span>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside
+      class="fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] bg-gray-800 text-white flex flex-col"
+    >
+      <nav class="mt-8 space-y-4">
+        <a href="#" class="block px-6 py-2 hover:bg-gray-700">Dashboard</a>
+        <a href="#" class="block px-6 py-2 hover:bg-gray-700">Transactions</a>
+        <a href="#" class="block px-6 py-2 hover:bg-gray-700">Settings</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 mt-16 p-6">
+      <h1 class="text-2xl font-semibold">Welcome to the Admin Dashboard</h1>
+      <p class="mt-4">This is the main content area.</p>
+    </main>
+  </body>
+</html>
