@@ -1,9 +1,10 @@
 import { Router, Request, Response } from 'express';
+import UserController from '../../controllers/user/UserController';
 
 const router: Router = Router();
 
-router.get("/", (req: Request, res: Response) => {
-    res.render("index", { title: "APPLE GREEN", t: req.t.bind(req.i18n) });
-});
+router.get("/", UserController.home);
+router.post("/otp", UserController.senOtp);
+router.post("/verify-otp", UserController.verifyOtpAndAddCart);
 
 export default router;

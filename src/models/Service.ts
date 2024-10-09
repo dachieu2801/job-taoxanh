@@ -12,6 +12,7 @@ const ServiceSchema: Schema = new Schema({
   code: {
     type: String,
     required: true,
+    unique: true, 
   },
   api: {
     type: String,
@@ -23,6 +24,8 @@ const ServiceSchema: Schema = new Schema({
     type: String,
     required: true,
   },
+}, {
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } // Tự động thêm timestamps
 });
 
 // Tạo model từ schema

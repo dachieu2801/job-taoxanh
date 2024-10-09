@@ -1,11 +1,9 @@
 import { Router, Request, Response } from 'express';
-
+import AdminController from '../../controllers/admin/AdminController';
 const router: Router = Router();
 
-router.get("/", (req: Request, res: Response) => {
-  const greeting = req.t("greeting");
-  console.log(greeting);
-  res.render("admin/index", { title: "Admin", t: req.t.bind(req.i18n) });
-});
+router.get("/", AdminController.indexAdmin);
+
+router.get("/service", AdminController.createService);
 
 export default router;

@@ -44,6 +44,8 @@ const TransactionSchema: Schema = new Schema({
     type: String,
     required: true,
   },
+}, {
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } // Tự động thêm timestamps
 });
 
 // Tạo model từ schema

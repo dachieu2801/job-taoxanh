@@ -29,18 +29,7 @@ app.use((req: Request, res: Response, next) => {
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "../public")));
 app.set("views", path.join(__dirname, "views"));
-app.get("/admin", (req: Request, res: Response) => {
-  const greeting = req.t("greeting");
-  console.log(greeting);
-  res.render("admin/auth", { title: "Admin", t: req.t.bind(req.i18n) });
-});
 
-app.get("admin/dashboard", (req: Request, res: Response) => {
-  res.render("admin/dashboard", {
-    title: "Dashboard",
-    t: req.t.bind(req.i18n),
-  });
-});
 // Định nghĩa một route
 route(app);
 
