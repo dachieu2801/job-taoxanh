@@ -65,8 +65,8 @@ const UserController = {
             });
 
             const cart = new Cart({
-                phone,
-                imei,
+                    phone,
+                    imei,
                   services_code,
                   status:'new'
             });
@@ -77,20 +77,6 @@ const UserController = {
             sendErrorResponse(res, error);
         }
     },
-    
-    service: (req: Request, res: Response) => {
-        try {
-            const services = Service.find();
-            res.status(200).json({
-                data: services,
-                status: 'success',
-                message: ''
-            })
-        } catch (error) {
-            sendErrorResponse(res, error);
-        }
-
-    }
 }
 
 export default UserController;

@@ -12,23 +12,23 @@ const AdminController = {
 
 
     indexAdmin: (req: Request, res: Response) => {
-            const greeting = req.t("greeting");
-            console.log(greeting);
-            res.render("admin/index", { title: "Admin", t: req.t.bind(req.i18n) });
+        const greeting = req.t("greeting");
+        console.log(greeting);
+        res.render("admin/dashboard", { title: "Admin", t: req.t.bind(req.i18n) });
     },
 
     createService: async (req: Request, res: Response) => {
         try {
             const now = dayjs();
-            const body = req.body
+            const { name, price, code, api, api_key, status } = req.body
             const service = new Service({
-                name: 'Bypass iCloud',
-                price: 12000,
-                code: 'bypass_icloud',
-                api: 'http://localhost:3000/api/v1/user/imei',
-                api_key: '12345678',
-                status: 'active',
-            });
+                name,
+                price,
+                code,
+                api,
+                api_key,
+                status,
+            }); 
             await service.save();
             res.status(200).json({
                 service

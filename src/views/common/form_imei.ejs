@@ -5,6 +5,10 @@
       class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
       type="text" v-model="imei" id="imei" placeholder="Nhập mã IMEI Để tra cứu!!" @blur="validateImei"
       @focus="hideErrorMessage" />
+    <input
+      class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+      type="file" @change="handleFileUpload" id="imageInput" />
+    <p v-if="imeis.length" class="text-sm text-red-500 mt-2 ">{{ JSON.stringify(imeis) }}</p>
 
   </div>
   <div class="relative mt-2">
@@ -69,6 +73,7 @@
     data() {
       return {
         imei: '',
+        imeis: [],
         isOpen: false,
         phone: '',
         errorMessageImei: '',
@@ -83,6 +88,45 @@
       this.services = JSON.parse(document.getElementById('form_imei_services').innerHTML)
     },
     methods: {
+      handleFileUpload(event) {
+        const img = event.target.files[0];
+        this.uploadImage(img)
+      },
+      async uploadImage(img) {
+        if (!img) {
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', img);
+
+        try {
+          const response = await fetch('/upload-imeis', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            Swal.fire({
+              title: "Quét thất bại",
+              icon: "error",
+            })
+          }
+
+          const data = await response.json();
+          if (data.status === 'success') {
+            this.imeis = data.data
+          } else {
+            Swal.fire({
+              title: data?.message,
+              icon: "error",
+            })
+          }
+        } catch (error) {
+          console.error('Error uploading image:', error);
+        }
+      },
       toggleDropdown() {
         this.isOpen = !this.isOpen;
       },
@@ -101,7 +145,7 @@
           showCancelButton: true,
           confirmButtonText: "Gửi mã OTP",
           showLoaderOnConfirm: true,
-          preConfirm: (phone)=> seft.sendOtp(phone,seft),
+          preConfirm: (phone) => seft.sendOtp(phone, seft),
           allowOutsideClick: () => !Swal.isLoading(),
         }).then((result) => {
           if (result.isConfirmed) {

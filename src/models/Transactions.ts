@@ -14,7 +14,7 @@ export interface TransactionType extends Document {
 const TransactionSchema: Schema = new Schema({
   phone: {
     type: String,
-    required: true,
+    required: [true, 'Phone is required'],
     validate: {
       validator: function (v: string) {
         return /^0[35789]\d{8}$/.test(v);
@@ -24,11 +24,11 @@ const TransactionSchema: Schema = new Schema({
   },
   imei: {
     type: String,
-    required: true,
+    required:  [true, 'IMEI is required'],
   },
   services_code: {
     type: String,
-    required: true,
+    required:  [true, 'Service code is required'],
   },
   request: {
     type: String,

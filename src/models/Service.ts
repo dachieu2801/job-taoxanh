@@ -3,16 +3,16 @@ import mongoose, { Document, Schema } from 'mongoose';
 const ServiceSchema: Schema = new Schema({
   name: {
     type: String,
-    required: true,
+    required:  [true, 'Name is required'],
   },
   price: {
     type: Number,
-    required: true,
+    required:  [true, 'Price is required'],
   },
   code: {
     type: String,
-    required: true,
-    unique: true, 
+    required:  [true, 'Code is required'],
+    unique:  [true, 'Code is unique'], 
   },
   api: {
     type: String,

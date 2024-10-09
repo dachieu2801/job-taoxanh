@@ -14,11 +14,11 @@ const CartSchema: Schema = new Schema({
   },
   imei: {
     type: String,
-    required: true,
+    required:  [true, 'Imei is required'],
   },
   services_code: {
     type: String,
-    required: true,
+    required:  [true, 'Service code is required'],
   },
   status: {
     type: String,

@@ -6,6 +6,9 @@ import route from "./routes/index";
 import path from "path";
 import i18nConfig from "./shared/i18n/i18n";  // Import the new i18n configuration
 import i18nextMiddleware from "i18next-http-middleware";
+import multer from 'multer';
+import Tesseract from 'tesseract.js';
+
 
 dotenv.config();
 const app: Application = express();
@@ -25,6 +28,10 @@ app.use((req: Request, res: Response, next) => {
   next();
 });
 
+// Cấu hình multer để upload hình ảnh
+const storage = multer.memoryStorage(); // Sử dụng bộ nhớ thay vì lưu trữ vào đĩa
+const upload = multer({ storage: storage }).single('image');
+
 // Cấu hình EJS là engine template
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "../public")));
@@ -32,6 +39,58 @@ app.set("views", path.join(__dirname, "views"));
 
 // Định nghĩa một route
 route(app);
+
+// Route để xử lý upload hình ảnh và OCR
+app.post('/upload-imeis', (req: Request, res: Response) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.status(422).json({
+        status: 'failed',
+        message: 'Error: An error occurred while uploading the file.'
+      });
+    }
+
+    if (!req.file) {
+      return res.status(422).json({
+        status: 'failed',
+        message: 'Error: No file selected.'
+      });
+    }
+
+    // Sử dụng Tesseract.js để xử lý OCR
+    Tesseract.recognize(
+      req.file.buffer, // Truyền buffer của file ảnh
+      'eng',
+      { logger: m => console.log(m) } // Log quá trình nhận diện
+    ).then(({ data: { text } }) => {
+      const regex = /IMEI\d*\s+((?:\d+\s*){15})/g;
+
+      let matches;
+      const imeis = [];
+
+      while ((matches = regex.exec(text)) !== null) {
+        const numbers = matches[1].trim().split(/\s+/);
+        const concatenatedNumbers = numbers.join('');
+        if (concatenatedNumbers.length === 15) {
+          imeis.push(concatenatedNumbers);
+        }
+      }
+      // In kết quả
+      console.log('imeisimeisimeisimeis', imeis);
+
+
+      return res.status(200).json({
+        status: 'success',
+        data: imeis
+      });
+    }).catch(error => {
+      return res.status(422).json({
+        status: 'failed',
+        message: 'Error processing image.'
+      });
+    });
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on  http://localhost:${port}`);
