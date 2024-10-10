@@ -14,7 +14,7 @@ import { sendErrorResponse } from "../../shared/type";
 const UserController = {
   home: async (req: Request, res: Response) => {
     const services = await Service.find();
-    return res.render("user/home", {
+    return res.render("index", {
       title: "APPLE GREEN",
       t: req.t.bind(req.i18n),
       services,
@@ -22,11 +22,16 @@ const UserController = {
   },
   checkout: async (req: Request, res: Response) => {
     const { phone } = req.params;
-    return res.render("user/checkout", {
-      title: "Checkout",
-      t: req.t.bind(req.i18n),
-      phone,
-    });
+    try {
+      const cart = await Cart.findOne({ phone, status: "new" })
+        .sort({ created_at: -1 })
+        .exec();
+      res.json({ cart });
+      return;
+    } catch (error) {
+      sendErrorResponse(res, error);
+      return;
+    }
   },
 };
 

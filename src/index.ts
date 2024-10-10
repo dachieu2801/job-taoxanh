@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import connectDB from "./shared/database/database";
 import route from "./routes/index";
 import path from "path";
-import i18nConfig from "./shared/i18n/i18n"; // Import the new i18n configuration
+import i18nConfig from "./shared/i18n/i18n";
 import i18nextMiddleware from "i18next-http-middleware";
 import multer from "multer";
 import Tesseract from "tesseract.js";
@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.set("views", path.join(__dirname, "views"));
 // app.set("layout", "layout");
 
-// Định nghĩa một route
+//route
 route(app);
 
 // Route để xử lý upload hình ảnh và OCR
