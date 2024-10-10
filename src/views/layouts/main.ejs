@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <%- include('../partials/head', { title: title }) %>
+  <style>
+    /* Custom styles */
+    :root {
+      --swal-color: #008060;
+      /* Custom primary color */
+      --swal-bg: #ffffff;
+      /* Background color */
+      --swal-text-color: #000000;
+      /* Text color */
+    }
+
+    /* .swal2-popup {
+      background-color: var(--swal-bg);
+      color: var(--swal-text-color);
+    }
+
+    .swal2-confirm {
+      background-color: var(--swal-color);
+      border-color: var(--swal-color);
+    }
+
+    .swal2-confirm:hover {
+      background-color: darken(var(--swal-color), 10%);
+      border-color: darken(var(--swal-color), 10%);
+    } */
+  </style>
+  <body class="bg-gray-100">
+    <%- include('../partials/nav') %>
+    <main>
+      <section class="">
+        <div class="relative isolate px-6 pt-14 lg:px-8">
+          <div
+            class="absolute inset-x-0 -top-20 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+            aria-hidden="true"
+          >
+            <div
+              class="relative -z-10 left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#00b386] to-[#004d33] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+              style="
+                clip-path: polygon(
+                  74.1% 44.1%,
+                  100% 61.6%,
+                  97.5% 26.9%,
+                  85.5% 0.1%,
+                  80.7% 2%,
+                  72.5% 32.5%,
+                  60.2% 62.4%,
+                  52.4% 68.1%,
+                  47.5% 58.3%,
+                  45.2% 34.5%,
+                  27.5% 76.7%,
+                  0.1% 64.9%,
+                  17.9% 100%,
+                  27.6% 76.8%,
+                  76.1% 97.7%,
+                  74.1% 44.1%
+                );
+              "
+            ></div>
+          </div>
+          <div class="mx-auto max-w-2xl py-32 sm:py-48"><%- body %></div>
+          <div
+            class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+            aria-hidden="true"
+          >
+            <div
+              class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#00b386] to-[#004d33] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+              style="
+                clip-path: polygon(
+                  74.1% 44.1%,
+                  100% 61.6%,
+                  97.5% 26.9%,
+                  85.5% 0.1%,
+                  80.7% 2%,
+                  72.5% 32.5%,
+                  60.2% 62.4%,
+                  52.4% 68.1%,
+                  47.5% 58.3%,
+                  45.2% 34.5%,
+                  27.5% 76.7%,
+                  0.1% 64.9%,
+                  17.9% 100%,
+                  27.6% 76.8%,
+                  76.1% 97.7%,
+                  74.1% 44.1%
+                );
+              "
+            ></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

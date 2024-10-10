@@ -1,0 +1,148 @@
+<div class="hidden sm:mb-8 sm:flex sm:justify-center">
+  <div class="relative px-3 py-1 text-xl font-bold">
+    Quý khách vui lòng thanh toán để tiếp tục sử dụng dịch vụ :
+  </div>
+</div>
+
+<div id="checkout" class="leading-1 p-10 rounded-md shadow-lg">
+  <div class="font-bold text-lg mb-3 text-gray-400">THÔNG TIN GIAO DỊCH :</div>
+  <p>
+    Order ID: <span class="text-primary font-bold">{{ orderId }}</span>
+  </p>
+  <p>
+    IMEI: <span class="text-primary font-bold">{{ imei }}</span>
+  </p>
+  <p>
+    Số điện thoại: <span class="text-primary font-bold">{{ phone }}</span>
+  </p>
+  <p>Dịch vụ: <span class="text-primary font-bold">Check Imei</span></p>
+  <div class="relative mt-4">
+    <button
+      type="button"
+      @click="toggleDropdown"
+      class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:text-sm sm:leading-6"
+      aria-haspopup="listbox"
+      :aria-expanded="isOpen.toString()"
+      aria-labelledby="listbox-label"
+    >
+      <span class="flex items-center">
+        <!-- <img :src="selectedUser.image" alt="" class="h-5 w-5 flex-shrink-0 rounded-full" /> -->
+        <span class="ml-3 block truncate">{{
+          selectedPaymentMethod.name
+        }}</span>
+      </span>
+      <span
+        class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2"
+      >
+        <svg
+          class="h-5 w-5 text-gray-400"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10.53 3.47a.75.75 0 0 0-1.06 0L6.22 6.72a.75.75 0 0 0 1.06 1.06L10 5.06l2.72 2.72a.75.75 0 1 0 1.06-1.06l-3.25-3.25Zm-4.31 9.81 3.25 3.25a.75.75 0 0 0 1.06 0l3.25-3.25a.75.75 0 1 0-1.06-1.06L10 14.94l-2.72-2.72a.75.75 0 0 0-1.06 1.06Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </span>
+    </button>
+    <ul
+      v-if="isOpen"
+      class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+      role="listbox"
+      aria-labelledby="listbox-label"
+    >
+      <li
+        v-for="method in paymentMethods"
+        :key="method.id"
+        class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 hover:text-primary"
+        @click="selectmethod(method)"
+        role="option"
+      >
+        <div class="flex items-center">
+          <!-- <img :src="user.image" alt="" class="h-5 w-5 flex-shrink-0 rounded-full" /> -->
+          <span class="ml-3 block truncate font-normal">{{
+            method?.name
+          }}</span>
+        </div>
+        <span
+          v-if="selectedPaymentMethod.code === method.code"
+          class="absolute inset-y-0 right-0 flex items-center pr-4 text-primary"
+        >
+          <svg
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </li>
+    </ul>
+    <p v-if="errorMessageImei" class="text-sm text-red-500 mt-2">
+      {{ errorMessageImei }}
+    </p>
+  </div>
+  <div class="lg:mt-8 flex items-center justify-center gap-x-6 mt-2">
+    <button
+      class="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-hover_primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      @click="handleCheck"
+    >
+      Thanh toán
+    </button>
+  </div>
+</div>
+<script>
+  const { createApp } = Vue;
+  const app = createApp({
+    data() {
+      return {
+        orderId: "001",
+        imei: "1234324234234234",
+
+        isOpen: false,
+        phone: "0918127382",
+        errorMessageImei: "",
+        paymentMethods: [
+          {
+            id: 1,
+            name: "Thanh toán bằng SEPAY",
+          },
+        ],
+        selectedPaymentMethod: {
+          name: "Chọn phương thức thanh toán",
+          code: "",
+        },
+      };
+    },
+    methods: {
+      toggleDropdown() {
+        this.isOpen = !this.isOpen;
+      },
+      selectmethod(method) {
+        this.selectedPaymentMethod = method;
+        this.isOpen = false;
+      },
+      handleCheck() {
+        if (this.selectedPaymentMethod.code == "") {
+          this.errorMessageImei = "Xin hãy chọn 1 phương thức thanh toán!";
+        } else {
+          this.errorMessageImei = "";
+        }
+      },
+    },
+    mounted() {
+      //   this.paymentMethods = JSON.parse(
+      //     document.getElementById("form_imei_paymentMethods").innerHTML
+      //   );
+    },
+  });
+  app.mount("#checkout");
+</script>
