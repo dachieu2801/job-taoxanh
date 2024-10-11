@@ -60,21 +60,44 @@ app.post("/upload-imeis", (req: Request, res: Response) => {
         message: "Error: No file selected.",
       });
     }
-
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/bmp"];
+    if (!allowedMimeTypes.includes(req.file.mimetype)) {
+      return res.status(422).json({
+        status: "failed",
+        message: "Error: Unsupported file format. Please upload a JPG, PNG, or BMP file.",
+      });
+    }
     Tesseract.recognize(req.file.buffer, "eng", {
       logger: (m) => console.log(m),
     })
       .then(({ data: { text } }) => {
+        console.log(text);
         const regex = /IMEI\d*\s+((?:\d+\s*){15})/g;
-
-        let matches;
+   
+        let matches;  
         const imeis = [];
 
         while ((matches = regex.exec(text)) !== null) {
           const numbers = matches[1].trim().split(/\s+/);
           const concatenatedNumbers = numbers.join("");
           if (concatenatedNumbers.length === 15) {
-            imeis.push(concatenatedNumbers);
+              // Kiểm tra tính hợp lệ của IMEI bằng thuật toán Luhn
+              const imei = concatenatedNumbers;
+              let sum = 0;
+              for (let i = 0; i < 14; i++) {
+                let num = parseInt(imei[i], 10);
+                if (i % 2 !== 0) {
+                  num *= 2;
+                  if (num > 9) {
+                    num = Math.floor(num / 10) + (num % 10);
+                  }
+                }
+                sum += num;
+              }
+              // Nếu tổng cộng lại không chia hết cho 10, IMEI không hợp lệ
+              if (!((sum + parseInt(imei[14], 10)) % 10 !== 0)) {
+                imeis.push(concatenatedNumbers);
+              }
           }
         }
         return res.status(200).json({

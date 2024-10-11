@@ -16,6 +16,7 @@
     <input
       class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
       type="file"
+      accept=".jpg,.bmp,.png"
       @change="handleFileUpload"
     />
     <p v-if="imeis.length" class="text-sm text-red-500 mt-2">
@@ -127,7 +128,7 @@
           name: "Choose a service",
           code: "",
         },
-      };
+      }; 
     },
     mounted() {
       this.services = JSON.parse(
@@ -296,9 +297,8 @@
             sum += num;
           }
 
-          // Tính số cuối cùng
-          let lastDigit = (10 - (sum % 10)) % 10; // Số cuối cùng
-          imei += lastDigit; // Thêm số cuối vào chuỗi IMEI
+          let lastDigit = (10 - (sum % 10)) % 10;
+          imei += lastDigit;
 
           // Cập nhật lại this.imei với số cuối
           this.imei = imei;
@@ -306,7 +306,6 @@
           return (this.errorMessageImei = "Please enter a valid IMEI!");
         }
 
-        // Kiểm tra lại nếu IMEI hợp lệ sau khi thêm số cuối
         let sum = 0;
         for (let i = 0; i < 14; i++) {
           let num = parseInt(imei[i], 10);
@@ -319,7 +318,6 @@
           sum += num;
         }
 
-        // Kiểm tra số cuối
         if ((sum + parseInt(imei[14], 10)) % 10 !== 0) {
           return (this.errorMessageImei = "Please enter a valid IMEI!");
         }

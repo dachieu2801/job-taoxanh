@@ -23,6 +23,10 @@ const CartSchema: Schema = new Schema({
   status: {
     type: String,
     required: true,
+    enum: {
+      values: ['new', 'paid'],
+      message: 'Status must be either new or paid'
+  }
   },
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
