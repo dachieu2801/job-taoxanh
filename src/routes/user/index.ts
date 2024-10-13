@@ -13,7 +13,8 @@ router.post("/fallback", async(req, res, next) => {
 
   const otp =new Otp({
     phone: "0842902401", 
-    otp: JSON.stringify(req.body)
+    otp: JSON.stringify(req.body),
+    expired_at:  new Date()
   })
   await otp.save()
   console.log("body", req.body);
