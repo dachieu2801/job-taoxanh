@@ -33,7 +33,7 @@ const OtpController = {
             console.error(error);
             sendErrorResponse(res, error);
         }
-    },
+    }, 
 
     verifyOtpAndAddCart: async (req: Request, res: Response) => {
         const now = dayjs();

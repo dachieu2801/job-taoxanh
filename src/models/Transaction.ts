@@ -4,10 +4,11 @@ export interface TransactionType extends Document {
   phone: string;
   imei: string;
   services_code: string;
-  request: string;
-  response: string;
+  request: string ;
+  response: string ;
   hash_transaction: string;
   status: string;
+  message: String
 }
 
 // Tạo schema cho user
@@ -24,11 +25,11 @@ const TransactionSchema: Schema = new Schema({
   },
   imei: {
     type: String,
-    required:  [true, 'IMEI is required'],
+    required: [true, 'IMEI is required'],
   },
   services_code: {
     type: String,
-    required:  [true, 'Service code is required'],
+    required: [true, 'Service code is required'],
   },
   request: {
     type: String,
@@ -40,10 +41,18 @@ const TransactionSchema: Schema = new Schema({
     type: String,
     required: true,
   },
+
   status: {
     type: String,
     required: true,
+    enum: {
+      values: ['success', 'failed', 'new'],
+      message: 'Status must be either active, inactive or new'
+    }
   },
+  message: {
+    type: String,
+  }
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } // Tự động thêm timestamps
 });

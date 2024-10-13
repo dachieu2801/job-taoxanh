@@ -23,6 +23,10 @@ const ServiceSchema: Schema = new Schema({
   status: {
     type: String,
     required: true,
+    enum: {
+      values: ['active', 'inactive'],
+      message: 'Status must be either active or inactive'
+  }
   },
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } // Tự động thêm timestamps
