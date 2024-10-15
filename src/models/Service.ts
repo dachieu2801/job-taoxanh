@@ -1,5 +1,9 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
+export const servicesCode =  {
+  checkImei: 'check_imei',
+}
+
 const ServiceSchema: Schema = new Schema({
   name: {
     type: String,

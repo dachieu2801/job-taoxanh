@@ -18,32 +18,32 @@ const UserController = {
   },
   getCheckout: async (req: Request, res: Response) => {
     try {
-      const { phone } = req.params;
+      const { hashTransaction } = req.params;
 
-      const [paymentMethods, cart] = await Promise.all([
+      const [paymentMethods, transaction] = await Promise.all([
         PaymentMethod.find({ status: "active" }),
-        Cart.findOne({ phone, status: "new" }).sort({ created_at: -1 }).exec(),
+        Transaction.findOne({ hash_transaction: hashTransaction, status: "new", status_payment: "unpaid" }),
       ]);
 
-      if (!cart) {
+      if (!transaction) {
         res
           .status(404)
           .render("404", { title: "Page Not Found", layout: false });
         return;
       }
-      let service = await Service.findOne({ code: cart.services_code });
+      let service = await Service.findOne({ code: transaction.services_code });
       if (!service) {
         res
-          .status(404)
-          .render("404", { title: "Page Not Found", layout: false });
+          .status(500)
+          .render("500", { title: "Dịch vụ không hợp lệ", layout: false });
         return;
       }
-      console.log("cart", cart);
+      console.log("transaction", transaction);
       console.log("service", service);
       return res.render("user/checkout", {
         title: "Checkout",
         t: req.t.bind(req.i18n),
-        cart,
+        transaction,
         service,
         paymentMethods,
       });
@@ -115,11 +115,13 @@ const UserController = {
         data: transaction,
         message: "Checkout successfully",
       });
+      return;
     } catch (error) {
       await session.abortTransaction();
       session.endSession();
       console.error(error);
       sendErrorResponse(res, error);
+      return
     }
   },
 };

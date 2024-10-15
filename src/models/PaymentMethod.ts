@@ -1,5 +1,10 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
+export const paymentMethodCode = {
+    sepay: 'sepay',
+}
+
+export const signFirstInCodeFallback = 'DH';
 
 const PaymentMethodSchema: Schema = new Schema({
     code: {
@@ -10,6 +15,12 @@ const PaymentMethodSchema: Schema = new Schema({
     name: {
         type: String,
         required: [true, 'name is required'],
+    },
+    nameBank: {
+        type: String,
+    },
+    bankAcc: {
+        type: String,
     },
     status: {
         type: String,

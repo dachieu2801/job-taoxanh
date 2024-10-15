@@ -7,10 +7,11 @@
 
 <div id="checkout" class="leading-1 p-10 rounded-md shadow-lg">
   <div class="font-bold text-lg mb-3 text-gray-400">THÔNG TIN GIAO DỊCH :</div>
-  <p>IMEI: <span class="text-primary font-bold"> <%= cart.imei %> </span></p>
+  <p>Mã giao dịch: <span class="text-primary font-bold"> <%= transaction.hash_transaction %> </span></p>
+  <p>IMEI: <span class="text-primary font-bold"> <%= transaction.imei %> </span></p>
   <p>
     Số điện thoại:
-    <span class="text-primary font-bold"> <%= cart.phone %> </span>
+    <span class="text-primary font-bold"> <%= transaction.phone %> </span>
   </p>
   <p>
     Dịch vụ: <span class="text-primary font-bold"> <%= service.name %> </span>
@@ -104,7 +105,6 @@
       Thanh toán
     </button>
   </div>
-  <input type="hidden" name="cartId" value="<%= cart._id %>" />
 </div>
 <script>
   const { createApp } = Vue;
@@ -127,46 +127,46 @@
         this.selectedPaymentMethod = method;
         this.isOpen = false;
       },
-      async handleCheck() {
-        if (this.selectedPaymentMethod.code == "") {
-          this.errorMessage = "Xin hãy chọn 1 phương thức thanh toán!";
-        } else {
-          const cartId = document.querySelector('input[name="cartId"]').value;
-          const response = await fetch("/checkout", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              paymentMethodId: this.selectedPaymentMethod._id,
-              cartId,
-            }),
-          });
+      // async handleCheck() {
+      //   if (this.selectedPaymentMethod.code == "") {
+      //     this.errorMessage = "Xin hãy chọn 1 phương thức thanh toán!";
+      //   } else {
+      //     const cartId = document.querySelector('input[name="cartId"]').value;
+      //     const response = await fetch("/checkout", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({
+      //         paymentMethodId: this.selectedPaymentMethod._id,
+      //         cartId,
+      //       }),
+      //     });
 
-          if (!response.ok) {
-            const data = await response.json();
-            Swal.fire({
-              title: data.message ?? "",
-              icon: "error",
-            });
-          }
+      //     if (!response.ok) {
+      //       const data = await response.json();
+      //       Swal.fire({
+      //         title: data.message ?? "",
+      //         icon: "error",
+      //       });
+      //     }
 
-          const data = await response.json();
-          if (data.status === "success") {
-            Swal.fire({
-              title: `Thanh toán thành công. Mã giao dịch: ${data.data.hash_transaction}`,
-              icon: "success",
-            });
-          } else {
-            Swal.fire({
-              title: data.message ?? "",
-              icon: "error",
-            });
-          }
-        }
-      },
+      //     const data = await response.json();
+      //     if (data.status === "success") {
+      //       Swal.fire({
+      //         title: `Thanh toán thành công. Mã giao dịch: ${data.data.hash_transaction}`,
+      //         icon: "success",
+      //       });
+      //     } else {
+      //       Swal.fire({
+      //         title: data.message ?? "",
+      //         icon: "error",
+      //       });
+      //     }
+      //   }
+      // },
     },
-    mounted() {},
+    mounted() {}, 
   });
   app.mount("#checkout");
 </script>

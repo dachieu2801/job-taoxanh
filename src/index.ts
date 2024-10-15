@@ -123,7 +123,7 @@ app.use((req: Request, res: Response) => {
   res.status(404).render("404", { title: "Page Not Found", layout: false });
 });
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack); // Log the error stack (optional)
+  console.error(err.stack); 
   res
     .status(500)
     .render("500", { title: "Internal Server Error", layout: false });
