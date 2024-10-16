@@ -4,11 +4,24 @@ export interface TransactionType extends Document {
   phone: string;
   imei: string;
   services_code: string;
-  request: string ;
-  response: string ;
+  request: string;
+  response_payment: string;
   hash_transaction: string;
   status: string;
-  message: String
+  message: String;
+  status_payment: string;
+  response_user: string;
+}
+
+export const statusPayment = {
+  paid: 'paid',
+  unpaid: 'unpaid',
+}
+
+export const status = {
+  success: 'success',
+  failed: "failed",
+  new: "new",
 }
 
 // Tạo schema cho user
@@ -34,20 +47,31 @@ const TransactionSchema: Schema = new Schema({
   request: {
     type: String,
   },
-  response: {
+  response_payment: {
     type: String,
   },
   hash_transaction: {
     type: String,
     required: true,
   },
-
+  response_user: {
+    type: String,
+  },
   status: {
     type: String,
     required: true,
     enum: {
       values: ['success', 'failed', 'new'],
       message: 'Status must be either active, inactive or new'
+    }
+  },
+
+  status_payment: {
+    type: String,
+    required: true,
+    enum: {
+      values: ['paid', 'unpaid'],
+      message: 'Status must be either paid, unpaid'
     }
   },
   message: {

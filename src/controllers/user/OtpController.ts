@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import dayjs from 'dayjs';
 import Otp from '../../models/Otp';
+import Transaction from '../../models/Transaction';
 import Service from '../../models/Service';
 import Cart from '../../models/Cart';
 import { generateOTP } from '../../until/functions'
@@ -23,7 +24,7 @@ const OtpController = {
                 expired_at: +now.add(15, 'minute')
             });
             await OTP.save();
-            console.log('newOtp',OTP)
+            console.log('newOtp', OTP)
             res.status(200).json({
                 data: { otp: OTP },
                 status: 'success',
@@ -33,14 +34,14 @@ const OtpController = {
             console.error(error);
             sendErrorResponse(res, error);
         }
-    }, 
+    },
 
-    verifyOtpAndAddCart: async (req: Request, res: Response) => {
+    verifyOtpAndCreateTransaction: async (req: Request, res: Response) => {
         const now = dayjs();
-        const { otp, phone ,imei ,services_code} = req.body;
+        const { otp, phone, imei, services_code } = req.body;
         try {
             const latestOtp = await Otp.findOne({ phone }).sort({ created_at: -1 });
-            console.log('latestOtp',latestOtp)
+            console.log('latestOtp', latestOtp)
 
             if (!latestOtp || +dayjs(latestOtp.expired_at) < +now || latestOtp.otp != otp) {
                 res.status(400).json({
@@ -50,25 +51,31 @@ const OtpController = {
                 return
             }
 
-            res.status(200).json({
-                status: 'success',
-                message: 'OTP verified successfully.'
-            });
-
-            const cart = new Cart({
+            const hash_transaction = +dayjs();
+            const transaction = new Transaction({
                 phone,
                 imei,
-                  services_code,
-                  status:'new'
+                services_code,
+                status: 'new',
+                hash_transaction,
+                status_payment: 'unpaid',
             });
-            
-            await cart.save();
+
+            await transaction.save();
+
+            res.status(200).json({
+                status: 'success',
+                message: 'OTP verified successfully.',
+                data: hash_transaction
+            });
+            return
+
         } catch (error) {
             console.error(error);
             sendErrorResponse(res, error);
         }
     },
-  
+
 }
 
 export default OtpController;
