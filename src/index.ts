@@ -9,6 +9,7 @@ import i18nextMiddleware from "i18next-http-middleware";
 import multer from "multer";
 import Tesseract from "tesseract.js";
 import expressLayouts from "express-ejs-layouts";
+import { verifyImei } from "./until/functions";
 
 dotenv.config();
 const app: Application = express();
@@ -73,32 +74,35 @@ app.post("/upload-imeis", (req: Request, res: Response) => {
       .then(({ data: { text } }) => {
         console.log(text);
         const regex = /IMEI\d*\s+((?:\d+\s*){15})/g;
-   
-        let matches;  
+
+        let matches;
         const imeis = [];
 
         while ((matches = regex.exec(text)) !== null) {
           const numbers = matches[1].trim().split(/\s+/);
           const concatenatedNumbers = numbers.join("");
-          if (concatenatedNumbers.length === 15) {
-              // Kiểm tra tính hợp lệ của IMEI bằng thuật toán Luhn
-              const imei = concatenatedNumbers;
-              let sum = 0;
-              for (let i = 0; i < 14; i++) {
-                let num = parseInt(imei[i], 10);
-                if (i % 2 !== 0) {
-                  num *= 2;
-                  if (num > 9) {
-                    num = Math.floor(num / 10) + (num % 10);
-                  }
-                }
-                sum += num;
-              }
-              // Nếu tổng cộng lại không chia hết cho 10, IMEI không hợp lệ
-              if (!((sum + parseInt(imei[14], 10)) % 10 !== 0)) {
-                imeis.push(concatenatedNumbers);
-              }
+          if(verifyImei(concatenatedNumbers)){
+            imeis.push(concatenatedNumbers);
           }
+          // if (concatenatedNumbers.length === 15) {
+          //   // Kiểm tra tính hợp lệ của IMEI bằng thuật toán Luhn
+          //   const imei = concatenatedNumbers;
+          //   let sum = 0;
+          //   for (let i = 0; i < 14; i++) {
+          //     let num = parseInt(imei[i], 10);
+          //     if (i % 2 !== 0) {
+          //       num *= 2;
+          //       if (num > 9) {
+          //         num = Math.floor(num / 10) + (num % 10);
+          //       }
+          //     }
+          //     sum += num;
+          //   }
+          //   // Nếu tổng cộng lại không chia hết cho 10, IMEI không hợp lệ
+          //   if (!((sum + parseInt(imei[14], 10)) % 10 !== 0)) {
+          //     imeis.push(concatenatedNumbers);
+          //   }
+          // }
         }
         return res.status(200).json({
           status: "success",
@@ -123,7 +127,7 @@ app.use((req: Request, res: Response) => {
   res.status(404).render("404", { title: "Page Not Found", layout: false });
 });
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack); 
+  console.error(err.stack);
   res
     .status(500)
     .render("500", { title: "Internal Server Error", layout: false });

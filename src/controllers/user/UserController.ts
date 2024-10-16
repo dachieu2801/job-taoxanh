@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import dayjs from "dayjs";
 import Service from "../../models/Service";
 import Cart from "../../models/Cart";
-import Transaction from "../../models/Transaction";
+import Transaction, { status, statusPayment } from "../../models/Transaction";
 import PaymentMethod from "../../models/PaymentMethod";
 import { sendErrorResponse } from "../../shared/type";
 import mongoose, { isValidObjectId } from "mongoose";
@@ -22,7 +22,7 @@ const UserController = {
 
       const [paymentMethods, transaction] = await Promise.all([
         PaymentMethod.find({ status: "active" }),
-        Transaction.findOne({ hash_transaction: hashTransaction, status: "new", status_payment: "unpaid" }),
+        Transaction.findOne({ hash_transaction: hashTransaction, status: status.new, status_payment: statusPayment.unpaid }),
       ]);
 
       if (!transaction) {
@@ -52,7 +52,7 @@ const UserController = {
       sendErrorResponse(res, error);
     }
   },
-  checkout: async (req: Request, res: Response) => {
+  handleCheckout: async (req: Request, res: Response) => {
     const session = await mongoose.startSession();
     session.startTransaction();
 
@@ -123,6 +123,39 @@ const UserController = {
       sendErrorResponse(res, error);
       return
     }
+  },
+  getInforServive: async (req: Request, res: Response) => {
+    const { hashTransaction } = req.params;
+    const transaction = await Transaction.findOne({ hash_transaction: hashTransaction })
+    if(!transaction) {
+      res.status(404).render("404", { title: "Transaction Not Found", layout: false });
+      return
+    }
+    res.json({ data: transaction })
+
+    // return res.render("user/infor", {
+    //   title: "APPLE GREEN",
+    //   t: req.t.bind(req.i18n),
+    //   services,
+    // });
+  },
+  listTransaction: async (req: Request, res: Response) => {
+    const { textSearch } = req.params;
+    const transactions = await Transaction.find({
+      $or: [
+        { hash_transaction: textSearch },
+        { phone: textSearch }
+      ],
+      
+    })
+
+    res.json({ transactions })
+
+    // return res.render("user/infor", {
+    //   title: "APPLE GREEN",
+    //   t: req.t.bind(req.i18n),
+    //   services,
+    // });
   },
 };
 
