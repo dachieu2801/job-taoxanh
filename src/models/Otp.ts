@@ -1,4 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import dayjs from 'dayjs';
+import { generateOTP } from '../until/functions';
 
 export interface OtpDocument extends Document {
   phone: string;
@@ -35,3 +37,23 @@ const OtpSchema: Schema<OtpDocument> = new Schema({
 const Otp = mongoose.model<OtpDocument>('Otp', OtpSchema);
 
 export default Otp;
+
+export const OtpRepository = {
+  createOtp:async (phone: string) =>{
+      const now = dayjs();
+      const otp = generateOTP()
+
+      const newOtp = new Otp({
+          otp,
+          phone,
+          expired_at: +now.add(15, 'minute'),
+      });
+      await newOtp.save();
+      return newOtp;
+  },
+
+  getLatestOtp: async (phone: string) => {
+      const latestOtp = await Otp.findOne({ phone }).sort({ created_at: -1 });
+      return latestOtp;
+  }
+}

@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 import Service from '../../models/Service';
 import UserAdmin, { UserAdminDTO } from '../../models/UserAdmin';
 import { verifyPassword } from '../../until/functions'
+import { TransactionRepository, fillterInterface } from '../../models/Transaction'
+import { sendErrorResponse } from '../../shared/type/index';
+import { getJSDocReturnTag } from 'typescript';
 
 dotenv.config();
 
@@ -19,7 +22,7 @@ const AdminController = {
         const user: UserAdminDTO | null = await UserAdmin.findOne({ username });
         if (!user) {
             res.status(404).json({ status: 'failed', message: 'Invalid username or password' })
-            return 
+            return
         }
 
         const isMatch = await verifyPassword(password, user.password);
@@ -27,14 +30,12 @@ const AdminController = {
             res.status(404).json({ status: 'failed', message: 'Invalid username or password' })
             return
         }
-        req.session.user = { username }; 
+        req.session.user = { username };
 
         res.redirect('/admin/dashboard');
     },
 
     indexAdmin: (req: Request, res: Response) => {
-        const greeting = req.t("greeting");
-        console.log(greeting);
         res.render("admin/dashboard", { title: "Admin", t: req.t.bind(req.i18n) });
     },
 
@@ -61,6 +62,17 @@ const AdminController = {
                 status: 'failed',
                 message: error instanceof Error ? error.message : 'Has error'
             });
+        }
+    },
+    transactions: async (req: Request, res: Response) => {
+        try {
+            const fillter: fillterInterface = req.query
+            const transactions = await TransactionRepository.filter(fillter);
+            res.json({ transactions })
+            return
+        } catch (error) {
+            console.error(error);
+            sendErrorResponse(res, error);
         }
     }
 

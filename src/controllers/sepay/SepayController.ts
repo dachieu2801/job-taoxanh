@@ -38,7 +38,6 @@ const SepayController = {
                 return
             }
 
-
             const service = await Service.findOne({ code: transaction.services_code });
             if (!service) {
                 res.status(404).json({

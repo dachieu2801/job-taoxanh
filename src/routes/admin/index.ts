@@ -21,6 +21,9 @@ router.get("/", authToken, (req: Request, res: Response) => {
   });
 });
 
+router.get("/transactions", authToken, AdminController.transactions)
+
+
 router.get("/dashboard", authToken, (req: Request, res: Response) => {
   res.render("admin/dashboard", {
     title: "Dashboard",
