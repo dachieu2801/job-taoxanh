@@ -31,7 +31,7 @@
             <%= transaction.status_payment || 'N/A' %>
           </td>
           <td class="border p-3">
-            <%= new Date(transaction.created_at).toLocaleString() %>
+            <%= new Date(transaction.created_at).toLocaleString('en-GB') %>
           </td>
         </tr>
         <% }); %>
