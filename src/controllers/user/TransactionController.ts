@@ -8,7 +8,6 @@ import { sendErrorResponse } from "../../shared/type";
 import mongoose, { isValidObjectId } from "mongoose";
 
 const TransactionController = {
- 
   getCheckout: async (req: Request, res: Response) => {
     try {
       const { hashTransaction } = req.params;
@@ -49,29 +48,33 @@ const TransactionController = {
     }
   },
   listTransaction: async (req: Request, res: Response) => {
-    try{
-        const { textSearch } = req.query;
-        const transactions = await Transaction.find({
-          $or: [{ hash_transaction: textSearch }, { phone: textSearch }, { imei: textSearch }],
-        });
-        if (transactions.length === 0) {
-          return res.render("user/search-nodata", {
-            title: "không có kết quả",
-            t: req.t.bind(req.i18n),
-            transactions,
-          });
-        }
-        console.log("transactions", transactions);
-        return res.render("user/search", {
-          title: "Lịch sử giao dịch",
+    try {
+      const { textSearch } = req.query;
+      const transactions = await Transaction.find({
+        $or: [
+          { hash_transaction: textSearch },
+          { phone: textSearch },
+          { imei: textSearch },
+        ],
+      });
+      if (transactions.length === 0) {
+        return res.render("user/search-nodata", {
+          title: "không có kết quả",
           t: req.t.bind(req.i18n),
           transactions,
         });
-    }catch(error){
-        console.error(error);
-        sendErrorResponse(res, error);
+      }
+      console.log("transactions", transactions);
+      return res.render("user/search", {
+        title: "Lịch sử giao dịch",
+        t: req.t.bind(req.i18n),
+        transactions,
+        textSearch,
+      });
+    } catch (error) {
+      console.error(error);
+      sendErrorResponse(res, error);
     }
-    
   },
 };
 
