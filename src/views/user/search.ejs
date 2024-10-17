@@ -1,0 +1,39 @@
+<div class="mx-auto p-8 w-full">
+  <h2 class="text-2xl font-bold text-center mb-6 w-full">Kết quả tìm kiếm</h2>
+  <div class="w-full flex justify-center items-center">
+    <table
+      class="table-auto border-collapse w-full bg-white shadow-lg rounded-lg"
+    >
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border p-3 text-left">#</th>
+          <th class="border p-3 text-left">Số điện thoại</th>
+          <th class="border p-3 text-left">IMEI</th>
+          <th class="border p-3 text-left">Dịch vụ</th>
+          <th class="border p-3 text-left">Mã giao dịch</th>
+          <th class="border p-3 text-left">Trạng thái</th>
+          <th class="border p-3 text-left">Thanh toán</th>
+          <th class="border p-3 text-left">Ngày tạo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% transactions.forEach((transaction, index) => { %>
+        <tr class="hover:bg-gray-50">
+          <td class="border p-3"><%= index + 1 %></td>
+          <td class="border p-3"><%= transaction.phone %></td>
+          <td class="border p-3"><%= transaction.imei %></td>
+          <td class="border p-3"><%= transaction.services_code %></td>
+          <td class="border p-3"><%= transaction.hash_transaction %></td>
+          <td class="border p-3 capitalize"><%= transaction.status %></td>
+          <td class="border p-3 capitalize">
+            <%= transaction.status_payment || 'N/A' %>
+          </td>
+          <td class="border p-3">
+            <%= new Date(transaction.created_at).toLocaleString() %>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>

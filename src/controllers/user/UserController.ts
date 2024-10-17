@@ -22,7 +22,11 @@ const UserController = {
 
       const [paymentMethods, transaction] = await Promise.all([
         PaymentMethod.find({ status: "active" }),
-        Transaction.findOne({ hash_transaction: hashTransaction, status: status.new, status_payment: statusPayment.unpaid }),
+        Transaction.findOne({
+          hash_transaction: hashTransaction,
+          status: status.new,
+          status_payment: statusPayment.unpaid,
+        }),
       ]);
 
       if (!transaction) {
@@ -40,6 +44,7 @@ const UserController = {
       }
       console.log("transaction", transaction);
       console.log("service", service);
+      console.log(paymentMethods);
       return res.render("user/checkout", {
         title: "Checkout",
         t: req.t.bind(req.i18n),
@@ -121,41 +126,57 @@ const UserController = {
       session.endSession();
       console.error(error);
       sendErrorResponse(res, error);
-      return
+      return;
     }
   },
   getInforServive: async (req: Request, res: Response) => {
     const { hashTransaction } = req.params;
-    const transaction = await Transaction.findOne({ hash_transaction: hashTransaction })
-    if(!transaction) {
-      res.status(404).render("404", { title: "Transaction Not Found", layout: false });
-      return
+    const transaction = await Transaction.findOne({
+      hash_transaction: hashTransaction,
+    });
+    if (!transaction) {
+      res
+        .status(404)
+        .render("404", { title: "Transaction Not Found", layout: false });
+      return;
     }
-    res.json({ data: transaction })
-
-    // return res.render("user/infor", {
-    //   title: "APPLE GREEN",
-    //   t: req.t.bind(req.i18n),
-    //   services,
-    // });
+    console.log("transaction", transaction);
+    if (transaction.status_payment === "unpaid") {
+      return res.render("user/service-unpaid", {
+        title: "Chưa Thanh Toán",
+        t: req.t.bind(req.i18n),
+        transaction,
+      });
+    } else if (transaction.status_payment === "paid") {
+      return res.render("user/service", {
+        title: "Dịch vụ",
+        t: req.t.bind(req.i18n),
+        transaction,
+      });
+    }
+    return res.render("500", {
+      title: "Internal Server Error",
+      layout: false,
+    });
   },
   listTransaction: async (req: Request, res: Response) => {
-    const { textSearch } = req.params;
+    const { textSearch } = req.query;
     const transactions = await Transaction.find({
-      $or: [
-        { hash_transaction: textSearch },
-        { phone: textSearch }
-      ],
-      
-    })
-
-    res.json({ transactions })
-
-    // return res.render("user/infor", {
-    //   title: "APPLE GREEN",
-    //   t: req.t.bind(req.i18n),
-    //   services,
-    // });
+      $or: [{ hash_transaction: textSearch }, { phone: textSearch }],
+    });
+    if (transactions.length === 0) {
+      return res.render("user/search-nodata", {
+        title: "không có kết quả",
+        t: req.t.bind(req.i18n),
+        transactions,
+      });
+    }
+    console.log("transactions", transactions);
+    return res.render("user/search", {
+      title: "Lịch sử giao dịch",
+      t: req.t.bind(req.i18n),
+      transactions,
+    });
   },
 };
 

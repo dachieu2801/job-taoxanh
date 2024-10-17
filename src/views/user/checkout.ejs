@@ -7,8 +7,9 @@
 
 <div id="checkout" class="leading-1 p-10 rounded-md shadow-lg">
   <div class="font-bold text-lg mb-3 text-gray-400">THÔNG TIN GIAO DỊCH :</div>
-  <p>Mã giao dịch: <span class="text-primary font-bold"> <%= transaction.hash_transaction %> </span></p>
-  <p>IMEI: <span class="text-primary font-bold"> <%= transaction.imei %> </span></p>
+  <p>
+    IMEI: <span class="text-primary font-bold"> <%= transaction.imei %> </span>
+  </p>
   <p>
     Số điện thoại:
     <span class="text-primary font-bold"> <%= transaction.phone %> </span>
@@ -94,9 +95,7 @@
       {{ errorMessage }}
     </p>
   </div>
-  <img
-    src="https://qr.sepay.vn/img?acc=101499100004002467&bank=KienLongBank&amount=2000&des=DH1234567890"
-  />
+
   <div class="lg:mt-8 flex items-center justify-center gap-x-6 mt-2">
     <button
       class="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-hover_primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
@@ -105,6 +104,7 @@
       Thanh toán
     </button>
   </div>
+  <input type="hidden" name="transactionId" value="<%= transaction._id %>" />
 </div>
 <script>
   const { createApp } = Vue;
@@ -127,46 +127,30 @@
         this.selectedPaymentMethod = method;
         this.isOpen = false;
       },
-      // async handleCheck() {
-      //   if (this.selectedPaymentMethod.code == "") {
-      //     this.errorMessage = "Xin hãy chọn 1 phương thức thanh toán!";
-      //   } else {
-      //     const cartId = document.querySelector('input[name="cartId"]').value;
-      //     const response = await fetch("/checkout", {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify({
-      //         paymentMethodId: this.selectedPaymentMethod._id,
-      //         cartId,
-      //       }),
-      //     });
-
-      //     if (!response.ok) {
-      //       const data = await response.json();
-      //       Swal.fire({
-      //         title: data.message ?? "",
-      //         icon: "error",
-      //       });
-      //     }
-
-      //     const data = await response.json();
-      //     if (data.status === "success") {
-      //       Swal.fire({
-      //         title: `Thanh toán thành công. Mã giao dịch: ${data.data.hash_transaction}`,
-      //         icon: "success",
-      //       });
-      //     } else {
-      //       Swal.fire({
-      //         title: data.message ?? "",
-      //         icon: "error",
-      //       });
-      //     }
-      //   }
-      // },
+      async handleCheck() {
+        if (this.selectedPaymentMethod.code == "") {
+          this.errorMessage = "Xin hãy chọn 1 phương thức thanh toán!";
+        } else {
+          if (this.selectedPaymentMethod.code === "sepay") {
+            Swal.fire({
+              title: "Thanh toán",
+              text: "Vui lòng chuyển khoản theo mã QR trên. Sau khi thanh toán thành công vui lòng chụp lại hóa đơn và ấn chuyển tiếp để tiếp tục sử dụng dịch vụ",
+              imageUrl:
+                "https://qr.sepay.vn/img?acc=101499100004002467&bank=KienLongBank&amount=2000&des=DH1234567890",
+              imageWidth: 300,
+              imageAlt: "qr code",
+              confirmButtonText: "Chuyển tiếp",
+              confirmButtonColor: "#1976d2",
+            }).then((result) => {
+              result.isConfirmed
+                ? (window.location.href = `/info/<%= transaction.hash_transaction %>`)
+                : null;
+            });
+          }
+        }
+      },
     },
-    mounted() {}, 
+    mounted() {},
   });
   app.mount("#checkout");
 </script>
