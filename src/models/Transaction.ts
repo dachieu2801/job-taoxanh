@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-export interface TransactionType extends Document {
+export interface TransactionDTO extends Document {
   phone: string;
   imei: string;
   services_code: string;
@@ -82,6 +82,6 @@ const TransactionSchema: Schema = new Schema({
 });
 
 // Tạo model từ schema
-const Transaction = mongoose.model<TransactionType>('Transaction', TransactionSchema);
+const Transaction = mongoose.model<TransactionDTO>('Transaction', TransactionSchema);
 
 export default Transaction;

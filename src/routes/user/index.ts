@@ -12,6 +12,7 @@ router.post("/otp",validationMiddleware(optApiInput), OtpController.senOtp);
 router.post("/verify-otp", OtpController.verifyOtpAndCreateTransaction);
 router.get("/checkout/:hashTransaction", UserController.getCheckout);
 router.post("/checkout", UserController.handleCheckout);
+
 router.get("/transactions/:textSearch", UserController.listTransaction);
 
 router.post("/fallback", validationMiddleware(fallbackSepayApiInput), SepayController.fallback);

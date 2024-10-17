@@ -10,10 +10,19 @@ import multer from "multer";
 import Tesseract from "tesseract.js";
 import expressLayouts from "express-ejs-layouts";
 import { verifyImei } from "./until/functions";
+import session from 'express-session';
 
 dotenv.config();
 const app: Application = express();
 const port: number = parseInt(process.env.PORT as string, 10) || 8000;
+
+const publicKey = process.env.JWT_PUBLIC_KEY || 'Ki8fXkvYneOaVoRb'
+app.use(session({
+  secret: publicKey,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 }
+}));
 
 // khởi tạo i18n
 const i18next = i18nConfig();
@@ -81,7 +90,7 @@ app.post("/upload-imeis", (req: Request, res: Response) => {
         while ((matches = regex.exec(text)) !== null) {
           const numbers = matches[1].trim().split(/\s+/);
           const concatenatedNumbers = numbers.join("");
-          if(verifyImei(concatenatedNumbers)){
+          if (verifyImei(concatenatedNumbers)) {
             imeis.push(concatenatedNumbers);
           }
           // if (concatenatedNumbers.length === 15) {

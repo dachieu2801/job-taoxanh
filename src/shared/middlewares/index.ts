@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
+import dotenv from "dotenv";
+dotenv.config();
 
 export const validationMiddleware = (schema: Joi.ObjectSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -14,4 +16,12 @@ export const validationMiddleware = (schema: Joi.ObjectSchema) => {
     }
     next();
   };
+};
+
+export const authToken = (req: any, res: Response, next: NextFunction) => {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect('/admin/login');
+  }
 };

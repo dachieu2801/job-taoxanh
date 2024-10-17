@@ -1,15 +1,36 @@
 
 import { Request, Response } from 'express';
 import dayjs from 'dayjs';
+import dotenv from "dotenv";
 import Service from '../../models/Service';
-// import {
-//     sendSuccessResponse,
-//     sendErrorResponse
-// }
-//     from '../shared/type'
+import UserAdmin, { UserAdminDTO } from '../../models/UserAdmin';
+import { verifyPassword } from '../../until/functions'
+
+dotenv.config();
 
 const AdminController = {
 
+    showLogin: async (req: Request, res: Response) => {
+        return res.render("admin/auth", { title: "Admin", t: req.t.bind(req.i18n) });
+    },
+
+    login: async (req: any, res: Response) => {
+        const { username, password } = req.body;
+        const user: UserAdminDTO | null = await UserAdmin.findOne({ username });
+        if (!user) {
+            res.status(404).json({ status: 'failed', message: 'Invalid username or password' })
+            return 
+        }
+
+        const isMatch = await verifyPassword(password, user.password);
+        if (!isMatch) {
+            res.status(404).json({ status: 'failed', message: 'Invalid username or password' })
+            return
+        }
+        req.session.user = { username }; 
+
+        res.redirect('/admin/dashboard');
+    },
 
     indexAdmin: (req: Request, res: Response) => {
         const greeting = req.t("greeting");
@@ -28,7 +49,7 @@ const AdminController = {
                 api,
                 api_key,
                 status,
-            }); 
+            });
             await service.save();
             res.status(200).json({
                 service

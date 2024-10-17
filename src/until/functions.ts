@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+
 export const generateOTP = () => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     return otp.toString();
@@ -23,4 +25,11 @@ export const verifyImei = (imei: string) => {
         }
     }
     return false;
+}
+
+
+
+export async function verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+  const isMatch: boolean = await bcrypt.compare(plainPassword, hashedPassword); 
+  return isMatch; 
 }

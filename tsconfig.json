@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES6",
     "module": "CommonJS",
     "moduleResolution": "node",
     "strict": true,
@@ -15,10 +15,21 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ]
   },
-  "include": ["src/**/*", "src/types.d.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*",
+    "src/types.d.ts",
+    "src/types/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

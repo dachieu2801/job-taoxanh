@@ -36,7 +36,7 @@ export const optApiInput = Joi.object({
         }),
 });
 
-export const ApiInput = Joi.object({
+export const verifyOtpApiInput = Joi.compile(Joi.object({
     otp: Joi.string().required().messages({
         'any.required': 'OTP is required.',
     }),
@@ -44,10 +44,16 @@ export const ApiInput = Joi.object({
         .pattern(/^(03|05|07|08|09)\d{8}$/)
         .required()
         .messages({
-            'string.pattern.base': 'Please enter a valid phone number.',
+            'string.pattern.base': 'Phone number must be a valid Vietnamese phone number.',
             'any.required': 'Phone number is required.',
         }),
     imei: Joi.string()
+        .custom((value, helpers) => {
+            if (!verifyImei(value)) {
+                return helpers.message('IMEI is not valid.' as unknown as Joi.LanguageMessages);
+            }
+            return value;
+        })
         .required()
         .messages({
             'any.required': 'IMEI is required.',
@@ -55,4 +61,4 @@ export const ApiInput = Joi.object({
     services_code: Joi.string().required().messages({
         'any.required': 'Services code is required.',
     }),
-});
+}));
