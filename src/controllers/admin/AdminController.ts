@@ -2,12 +2,11 @@
 import { Request, Response } from 'express';
 import dayjs from 'dayjs';
 import dotenv from "dotenv";
-import Service from '../../models/Service';
+import Service, { ServiceInterface, UpdateServiceInput } from '../../models/Service';
 import UserAdmin, { UserAdminDTO } from '../../models/UserAdmin';
 import { verifyPassword } from '../../until/functions'
 import { TransactionRepository, fillterInterface } from '../../models/Transaction'
 import { sendErrorResponse } from '../../shared/type/index';
-import { getJSDocReturnTag } from 'typescript';
 
 dotenv.config();
 
@@ -38,47 +37,54 @@ const AdminController = {
     indexAdmin: (req: Request, res: Response) => {
         res.render("admin/dashboard", { title: "Admin", t: req.t.bind(req.i18n) });
     },
-
+    transactions: async (req: Request, res: Response) => {
+        try {
+            const fillter: fillterInterface = req.query
+            const transactions = await TransactionRepository.filter(fillter);
+            return res.render("admin/transactions", {
+                title: "Transactions",
+                transactions,
+                t: req.t.bind(req.i18n),
+            });
+        } catch (error) {
+            console.error(error);
+            sendErrorResponse(res, error);
+        }
+    },
     createService: async (req: Request, res: Response) => {
         try {
-            const now = dayjs();
-            const { name, price, code, api, api_key, status } = req.body
-            const service = new Service({
-                name,
-                price,
-                code,
-                api,
-                api_key,
-                status,
-            });
+            const serviceInput: ServiceInterface = req.body
+            const service = new Service(serviceInput);
             await service.save();
             res.status(200).json({
                 service
             })
         } catch (error) {
             console.error(error);
-            res.status(500).json({
-                data: null,
-                status: 'failed',
-                message: error instanceof Error ? error.message : 'Has error'
-            });
+            sendErrorResponse(res, error);
         }
     },
-    transactions: async (req: Request, res: Response) => {
+    services: async (req: Request, res: Response) => {
         try {
-            const fillter: fillterInterface = req.query
-            const transactions = await TransactionRepository.filter(fillter);
-            res.json({ transactions })
-            return
+            const services = await Service.find({});
+            res.status(200).json({
+                services
+            })
+        } catch (error) {
+            console.error(error);
+            sendErrorResponse(res, error);
+        }
+    },
+    editService: async (req: Request, res: Response) => {
+        const updateService: UpdateServiceInput = req.body
+        try {
+            const service = await Service.findOneAndUpdate({ _id: updateService._id }, updateService);
+
         } catch (error) {
             console.error(error);
             sendErrorResponse(res, error);
         }
     }
-
-
-
-
 }
 
 export default AdminController;

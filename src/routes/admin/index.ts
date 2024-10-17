@@ -23,17 +23,15 @@ router.get("/", authToken, (req: Request, res: Response) => {
 
 router.get("/transactions", authToken, AdminController.transactions)
 
+//service
+router.get("/services", authToken, AdminController.services)
+router.post("/service", authToken, AdminController.createService)
+router.put("/service", authToken, AdminController.editService)
+
 
 router.get("/dashboard", authToken, (req: Request, res: Response) => {
   res.render("admin/dashboard", {
     title: "Dashboard",
-    t: req.t.bind(req.i18n),
-  });
-});
-
-router.get("/transactions", authToken, (req: Request, res: Response) => {
-  res.render("admin/transactions", {
-    title: "Transactions",
     t: req.t.bind(req.i18n),
   });
 });
