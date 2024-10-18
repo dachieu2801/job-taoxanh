@@ -1,50 +1,4 @@
-<!-- src/views/index.ejs -->
-<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>
-    <%= title %>
-  </title>
-  <link href="/styles/output.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf/notyf.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/notyf/notyf.min.js"></script>
-
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-
-<body class="h-screen bg-gray-200">
-  <header class="bg-white fixed top-0 left-0 w-full flex items-center px-6 h-16 shadow-lg">
-   
-    <!-- Logo Section -->
-    <div class="w-64 text-left font-bold text-xl border-solid">
-      <a href="#">APPLE&nbsp;<span class="text-primary">GREEN</span></a>
-    </div>
-    <!-- Active Route Section -->
-    <div class="text-left text-gray-700 text-2xl font-bold">
-      <span>Active Route</span>
-    </div>
-  </header>
-
-  <!-- Sidebar -->
-  <aside class="fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] bg-white text-gray-500 flex flex-col">
-    <nav class="mt-8 space-y-4">
-      <a href="#" class="block px-6 py-2 hover:bg-gray-200">Dashboard</a>
-      <a href="#" class="block px-6 py-2 hover:bg-gray-200">Transactions</a>
-      <a href="#" class="block px-6 py-2 hover:bg-gray-200">Settings</a>
-    </nav>
-  </aside>
-  <form action="/admin/logout" method="POST">
-    <button type="submit">text<button>
-  </form>
-  <!-- Main Content -->
-  <main class="ml-64 mt-16 p-6">
+<main class="ml-64 mt-16 p-6">
     <canvas id="revenueChart" width="400" height="400"></canvas>
   </main>
 </body>
@@ -95,4 +49,3 @@
   });
 </script>
 
-</html>

@@ -10,19 +10,21 @@ import multer from "multer";
 import Tesseract from "tesseract.js";
 import expressLayouts from "express-ejs-layouts";
 import { verifyImei } from "./until/functions";
-import session from 'express-session';
+import session from "express-session";
 
 dotenv.config();
 const app: Application = express();
 const port: number = parseInt(process.env.PORT as string, 10) || 8000;
 
-const publicKey = process.env.JWT_PUBLIC_KEY || 'Ki8fXkvYneOaVoRb'
-app.use(session({
-  secret: publicKey,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 }
-}));
+const publicKey = process.env.JWT_PUBLIC_KEY || "Ki8fXkvYneOaVoRb";
+app.use(
+  session({
+    secret: publicKey,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 },
+  })
+);
 
 // khởi tạo i18n
 const i18next = i18nConfig();
@@ -46,6 +48,7 @@ const upload = multer({ storage: storage }).single("image");
 app.use(expressLayouts);
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/main");
+app.set("layout", "./layouts/admin");
 // app.engine("ejs", ejsLocals);
 app.use(express.static(path.join(__dirname, "../public")));
 app.set("views", path.join(__dirname, "views"));
@@ -74,7 +77,8 @@ app.post("/upload-imeis", (req: Request, res: Response) => {
     if (!allowedMimeTypes.includes(req.file.mimetype)) {
       return res.status(422).json({
         status: "failed",
-        message: "Error: Unsupported file format. Please upload a JPG, PNG, or BMP file.",
+        message:
+          "Error: Unsupported file format. Please upload a JPG, PNG, or BMP file.",
       });
     }
     Tesseract.recognize(req.file.buffer, "eng", {

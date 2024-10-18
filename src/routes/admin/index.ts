@@ -14,13 +14,8 @@ router.post("/logout", (req: Request, res: Response) => {
   });
 });
 
-router.get("/", authToken, (req: Request, res: Response) => {
-  res.render("admin/dashboard", {
-    title: "Dashboard",
-    t: req.t.bind(req.i18n),
-    layout: false,
-  });
-});
+router.get("/dashboard", authToken, AdminController.indexAdmin);
+router.get("/", authToken, AdminController.indexAdmin);
 
 router.get("/transactions", authToken, AdminController.transactions);
 
@@ -28,14 +23,6 @@ router.get("/transactions", authToken, AdminController.transactions);
 router.get("/services", authToken, AdminController.services);
 router.post("/service", authToken, AdminController.createService);
 router.put("/service", authToken, AdminController.editService);
-
-router.get("/dashboard", authToken, (req: Request, res: Response) => {
-  res.render("admin/dashboard", {
-    title: "Dashboard",
-    t: req.t.bind(req.i18n),
-    layout: false,
-  });
-});
 
 // router.post("/service", AdminController.createService);
 

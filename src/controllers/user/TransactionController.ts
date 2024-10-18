@@ -41,6 +41,7 @@ const TransactionController = {
         transaction,
         service,
         paymentMethods,
+        layout: "layouts/main",
       });
     } catch (error) {
       console.error(error);
@@ -62,6 +63,7 @@ const TransactionController = {
           title: "không có kết quả",
           t: req.t.bind(req.i18n),
           transactions,
+          layout: "layouts/main",
         });
       }
       console.log("transactions", transactions);
@@ -70,6 +72,7 @@ const TransactionController = {
         t: req.t.bind(req.i18n),
         transactions,
         textSearch,
+        layout: "layouts/main",
       });
     } catch (error) {
       console.error(error);

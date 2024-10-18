@@ -23,6 +23,7 @@ const ServiceController = {
         t: req.t.bind(req.i18n),
         transaction,
         parsedResponseUser,
+        layout: "layouts/main",
       });
     } else if (transaction.status_payment === "paid") {
       return res.render("user/service", {
@@ -30,6 +31,7 @@ const ServiceController = {
         t: req.t.bind(req.i18n),
         transaction,
         parsedResponseUser,
+        layout: "layouts/main",
       });
     }
     return res.render("500", {

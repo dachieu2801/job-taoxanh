@@ -15,6 +15,9 @@ import { sendErrorResponse } from "../../shared/type/index";
 
 dotenv.config();
 
+const setActiveClass = (path: string, currentPath: string) =>
+  path === currentPath ? "text-green-700" : "";
+
 const AdminController = {
   showLogin: async (req: Request, res: Response) => {
     return res.render("admin/auth", {
@@ -47,10 +50,13 @@ const AdminController = {
   },
 
   indexAdmin: (req: Request, res: Response) => {
+    console.log(req.path);
     res.render("admin/dashboard", {
       title: "Admin",
       t: req.t.bind(req.i18n),
-      layout: false,
+      layout: "layouts/admin",
+      activeRoute: "Dashboard",
+      activeClass: (path: string) => setActiveClass(path, req.path),
     });
   },
   transactions: async (req: Request, res: Response) => {
@@ -61,7 +67,9 @@ const AdminController = {
         title: "Transactions",
         transactions,
         t: req.t.bind(req.i18n),
-        layout: false,
+        layout: "layouts/admin",
+        activeRoute: "Transactions",
+        activeClass: (path: string) => setActiveClass(path, req.path),
       });
     } catch (error) {
       console.error(error);

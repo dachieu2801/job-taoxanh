@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <%- include('../partials/head', { title: title }) %>
+
+  <body class="h-screen bg-gray-100">
+    <!-- Header/Navbar -->
+    <header
+      class="fixed top-0 left-0 w-full flex items-center px-6 h-16 shadow-lg justify-start"
+    >
+      <div class="w-64 font-bold text-xl">
+        <a href="/admin/dashboard" class="text-primary"
+          >APPLE <span class="text-primary">GREEN</span></a
+        >
+      </div>
+      <div class="text-lg font-semibold text-start">
+        <span><%= activeRoute %></span>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside
+      class="fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] bg-white shadow-md"
+    >
+      <nav class="mt-8 space-y-2">
+        <a
+          href="/admin/dashboard"
+          class="block px-6 py-2 rounded-lg text-black hover:bg-hover_primary hover:text-white <%= activeClass('/dashboard') %>"
+          >Dashboard</a
+        >
+        <a
+          href="/admin/transactions"
+          class="block px-6 py-2 rounded-lg text-black hover:bg-hover_primary hover:text-white <%= activeClass('/transactions') %>"
+          >Transactions</a
+        >
+        <a
+          href="/admin/settings"
+          class="block px-6 py-2 rounded-lg text-black hover:bg-hover_primary hover:text-white <%= activeClass('/settings') %>"
+          >Settings</a
+        >
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 mt-16 p-6"><%- body %></main>
+
+    <!-- Logout Button -->
+    <form action="/admin/logout" method="POST" class="fixed bottom-6 left-6">
+      <button
+        type="submit"
+        class="bg-primary text-white px-4 py-2 rounded hover:bg-hover_primary transition duration-300 ease-in-out"
+      >
+        Logout
+      </button>
+    </form>
+  </body>
+</html>
