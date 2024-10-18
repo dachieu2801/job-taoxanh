@@ -4,9 +4,9 @@
     class="block text-sm font-medium leading-6 text-gray-900"
   ></label>
   <div class="relative mt-8">
-    <div class="flex items-center justify-center space-x-2">
+    <div class="flex items-center justify-center">
       <input
-        class="block w-full h-10 border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+        class="block w-full h-10 border-0 py-2.5 pl-7 pr-20 rounded-l-md text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
         type="text"
         v-model="imei"
         id="imei"
@@ -15,7 +15,7 @@
         @focus="hideErrorMessage"
       />
       <button
-        class="h-10 bg-primary px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-hover_primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        class="h-10 bg-primary px-3.5 py-2.5 rounded-r-md text-sm font-semibold text-white shadow-sm hover:bg-hover_primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         @click="handleCheck"
       >
         CHECK
@@ -24,18 +24,11 @@
     <p v-if="errorMessageImei" class="text-sm text-red-500 mt-2">
       {{ errorMessageImei }}
     </p>
-
-    <!-- <input
-      class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-      type="file"
-      accept=".jpg,.bmp,.png"
-      @change="handleFileUpload"
-    /> -->
     <div class="relative mt-5">
       <button
         type="button"
         @click="toggleDropdown"
-        class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:text-sm sm:leading-6"
+        class="relative w-full cursor-default rounded-md bg-white py-2.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:text-sm sm:leading-6"
         aria-haspopup="listbox"
         :aria-expanded="isOpen.toString()"
         aria-labelledby="listbox-label"
