@@ -1,12 +1,17 @@
-<header id="nav" class="absolute inset-x-0 top-0 z-50 border-b shadow-lg">
+<header id="nav" class="absolute inset-x-0 top-10 z-50 border shadow-lg mx-auto max-w-4xl  bg-white">
   <nav
-    class="flex items-center justify-between p-6 lg:px-8"
+    class="flex items-center justify-between pr-3"
     aria-label="Global"
   >
-    <div class="flex lg:flex-1">
-      <a href="#" class="text-4xl font-bold">
-        <span class="text-primary">GREEN</span>&nbsp;APPLE
+    <div class="flex lg:flex-1 items-center justify-start ">
+      <a href="/" class="text-4xl font-bold border-r border-primary p-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 " fill="#008060" viewBox="0 0 576 512"><path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg>
       </a>
+      <a
+      href="#"
+      class="text-md font-semibold  text-gray-900 border-r border-primary p-3"
+      >@Liên hệ</a
+    > 
     </div>
     <div class="flex lg:hidden">
       <button
@@ -32,26 +37,17 @@
       </button>
     </div>
     <div class="hidden lg:flex lg:gap-x-12">
-      <a href="#" class="text-md font-semibold leading-6 text-gray-900 p-3"
-        >Thanh toán</a
-      >
-      <a href="#" class="text-md font-semibold leading-6 text-gray-900 p-3"
-        >Mở khóa</a
-      >
-      <a
-        href="#"
-        class="text-md font-semibold leading-6 text-gray-900 border-gray-900 border-2 border-solid p-3"
-        >Liên hệ</a
-      >
+    
+     
     </div>
-    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-      <div class="relative mt-2 rounded-md shadow-sm">
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end ">
+      <div class="relative  rounded-md shadow-sm">
         <form method="GET" action="/transactions">
           <input
             type="text"
             name="textSearch"
             id="search"
-            class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+            class="block w-full  border py-3 pl-7 pr-20 text-gray-900  border-primary placeholder:text-gray-400 focus:outline-none  focus:ring-primary sm:text-sm sm:leading-6"
             placeholder="Tra cứu lịch sử"
           />
           <div class="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -88,10 +84,15 @@
       class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
     >
       <div class="flex items-center justify-between">
-        <div class="flex lg:flex-1">
-          <a href="#" class="text-4xl font-bold">
-            <span class="text-primary">GREEN</span>&nbsp;APPLE
+        <div class="flex lg:flex-1 items-center justify-start ">
+          <a href="/" class="text-4xl font-bold   p-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 " fill="#008060" viewBox="0 0 576 512"><path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg>
           </a>
+          <a
+          href="#"
+          class="text-md font-semibold  text-gray-900   p-3"
+          >@Liên hệ</a
+        > 
         </div>
         <button
           type="button"
