@@ -14,8 +14,8 @@ router.post("/logout", (req: Request, res: Response) => {
   });
 });
 
-router.get("/dashboard", authToken, AdminController.indexAdmin);
 router.get("/", authToken, AdminController.indexAdmin);
+router.get("/dashboard", authToken, AdminController.indexAdmin);
 
 router.get("/transactions", authToken, AdminController.transactions);
 
@@ -23,6 +23,7 @@ router.get("/transactions", authToken, AdminController.transactions);
 router.get("/services", authToken, AdminController.services);
 router.post("/service", authToken, AdminController.createService);
 router.put("/service", authToken, AdminController.editService);
+router.get("/settings", authToken, AdminController.renderSetting);
 
 // router.post("/service", AdminController.createService);
 

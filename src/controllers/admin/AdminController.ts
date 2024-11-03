@@ -63,9 +63,10 @@ const AdminController = {
     try {
       const fillter: fillterInterface = req.query;
       const transactions = await TransactionRepository.filter(fillter);
+      console.log("transactions", transactions.transactions);
       return res.render("admin/transactions", {
         title: "Transactions",
-        transactions,
+        transactions: transactions.transactions,
         t: req.t.bind(req.i18n),
         layout: "layouts/admin",
         activeRoute: "Transactions",
@@ -111,6 +112,15 @@ const AdminController = {
       console.error(error);
       sendErrorResponse(res, error);
     }
+  },
+  renderSetting: async (req: Request, res: Response) => {
+    res.render("admin/setting", {
+      title: "Setting",
+      t: req.t.bind(req.i18n),
+      layout: "layouts/admin",
+      activeRoute: "Setting",
+      activeClass: (path: string) => setActiveClass(path, req.path),
+    });
   },
 };
 
