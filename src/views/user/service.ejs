@@ -1,1 +1,65 @@
-<div>ĐÃ THANH TOÁn , GỌI API SỬ DỤNG DỊCH VỤ</div>
+<div>
+  <div class="font-bold text-2xl mb-3 text-center">
+    Thông tin đơn hàng số
+    <span class="text-primary"><%= transaction.hash_transaction %></span>
+  </div>
+  <div class="p-5 shadow-lg mb-10">
+    <div class="font-bold my-2">
+      Số điện thoại : <span class="text-primary"><%= transaction.phone %></span>
+    </div>
+    <div class="font-bold my-2">
+      Số IMEI : <span class="text-primary"><%= transaction.imei %></span>
+    </div>
+    <div class="font-bold my-2">
+      Số tiền : <span class="text-primary">12000 VND</span>
+    </div>
+    <div class="font-bold my-2">
+      Phương thức thanh toán : <span class="text-primary">sepay</span>
+    </div>
+    <div class="font-bold my-2">
+      Ngày tạo:
+      <span class="text-primary"
+        ><%= new Date(transaction.created_at).toLocaleString('en-GB') %></span
+      >
+    </div>
+  </div>
+  <div class="font-bold text-2xl mb-3 text-center">
+    Dịch vụ :
+    <span class="text-primary"><%= transaction.services_code %></span>
+  </div>
+  <div class="p-5 shadow-lg mb-10 flex gap-5">
+    <img
+      src="https://cdn.xtmobile.vn/vnt_upload/product/09_2023/thumbs/600_iphone-15-pro-max-titan-xanh-xtmobile.jpg"
+      alt="600_iphone-15-pro-max-titan-xanh-xtmobile"
+      width="50%"
+    />
+    <div>
+      <div>
+        <div class="font-bold my-2">
+          IMEI :
+          <span class="text-primary"
+            ><%= parsedResponseUser.result.IMEI %></span
+          >
+        </div>
+        <div class="font-bold my-2">
+          Nhà sản xuất :
+          <span class="text-primary"
+            ><%= parsedResponseUser.result.Manufacturer %></span
+          >
+        </div>
+        <div class="font-bold my-2">
+          Model Code :
+          <span class="text-primary"
+            ><%= parsedResponseUser.result?.["Model Name"] || 'N/A' %></span
+          >
+        </div>
+        <div class="font-bold my-2">
+          Model Code :
+          <span class="text-primary"
+            ><%= parsedResponseUser.result?.["Model Code"] || 'N/A' %></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

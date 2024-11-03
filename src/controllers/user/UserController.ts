@@ -8,6 +8,7 @@ const UserController = {
       title: "APPLE GREEN",
       t: req.t.bind(req.i18n),
       services,
+      layout: "layouts/main",
     });
   },
 };

@@ -1,0 +1,85 @@
+<h1 class="text-2xl font-bold mb-6">Danh sách giao dịch</h1>
+
+<div class="overflow-x-auto">
+  <table class="min-w-full bg-white shadow-md rounded-lg">
+    <thead>
+      <tr>
+        <th
+          class="px-6 py-3 border-b bg-gray-200 text-left text-sm font-medium text-gray-700"
+        >
+          STT
+        </th>
+        <th
+          class="px-6 py-3 border-b bg-gray-200 text-left text-sm font-medium text-gray-700"
+        >
+          Số điện thoại
+        </th>
+        <th
+          class="px-6 py-3 border-b bg-gray-200 text-left text-sm font-medium text-gray-700"
+        >
+          IMEI
+        </th>
+        <th
+          class="px-6 py-3 border-b bg-gray-200 text-left text-sm font-medium text-gray-700"
+        >
+          Dịch vụ
+        </th>
+        <th
+          class="px-6 py-3 border-b bg-gray-200 text-left text-sm font-medium text-gray-700"
+        >
+          Trạng thái
+        </th>
+        <th
+          class="px-6 py-3 border-b bg-gray-200 text-left text-sm font-medium text-gray-700"
+        >
+          Mã Giao dịch
+        </th>
+        <th
+          class="px-6 py-3 border-b bg-gray-200 text-left text-sm font-medium text-gray-700"
+        >
+          Ngày tạo
+        </th>
+        <th
+          class="px-6 py-3 border-b bg-gray-200 text-left text-sm font-medium text-gray-700"
+        >
+          Ngày sửa
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (transactions && transactions.length > 0) { %> <%
+      transactions.forEach((transaction, index) => { %>
+      <tr class="border-b hover:bg-gray-50">
+        <td class="px-6 py-4 text-sm text-gray-800"><%= index + 1 %></td>
+        <td class="px-6 py-4 text-sm text-gray-800">
+          <%= transaction.phone %>
+        </td>
+        <td class="px-6 py-4 text-sm text-gray-800"><%= transaction.imei %></td>
+        <td class="px-6 py-4 text-sm text-gray-800">
+          <%= transaction.services_code %>
+        </td>
+        <td
+          class="px-6 py-4 text-sm font-semibold <%= transaction.status === 'new' ? 'text-green-500' : transaction.status === 'processed' ? 'text-blue-500' : 'text-red-500' %>"
+        >
+          <%= transaction.status %>
+        </td>
+        <td class="px-6 py-4 text-sm text-gray-800">
+          <%= transaction.hash_transaction %>
+        </td>
+        <td class="px-6 py-4 text-sm text-gray-800">
+          <%= new Date(transaction.created_at).toLocaleString() %>
+        </td>
+        <td class="px-6 py-4 text-sm text-gray-800">
+          <%= new Date(transaction.updated_at).toLocaleString() %>
+        </td>
+      </tr>
+      <% }) %> <% } else { %>
+      <tr>
+        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+          No transactions found.
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

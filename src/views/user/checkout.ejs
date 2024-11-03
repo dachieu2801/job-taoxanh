@@ -128,6 +128,7 @@
         this.isOpen = false;
       },
       async handleCheck() {
+        const self = this;
         if (this.selectedPaymentMethod.code == "") {
           this.errorMessage = "Xin hãy chọn 1 phương thức thanh toán!";
         } else {
@@ -135,8 +136,7 @@
             Swal.fire({
               title: "Thanh toán",
               text: "Vui lòng chuyển khoản theo mã QR trên. Sau khi thanh toán thành công vui lòng chụp lại hóa đơn và ấn chuyển tiếp để tiếp tục sử dụng dịch vụ",
-              imageUrl:
-                "https://qr.sepay.vn/img?acc=101499100004002467&bank=KienLongBank&amount=2000&des=DH1234567890",
+              imageUrl: `https://qr.sepay.vn/img?acc=${self.selectedPaymentMethod.bankAcc}&bank=${self.selectedPaymentMethod.nameBank}&amount=<%= service.price %>&des=DH<%= transaction.hash_transaction %>`,
               imageWidth: 300,
               imageAlt: "qr code",
               confirmButtonText: "Chuyển tiếp",
