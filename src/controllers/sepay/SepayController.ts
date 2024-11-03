@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import dayjs from 'dayjs';
 import Transaction, { statusPayment, status } from '../../models/Transaction';
 import Service, { servicesCode } from '../../models/Service';
-import { sendErrorResponse } from '../../shared/type';
+import { sendErrorResponse } from '../../shared/type/request';
 import PaymentMethod, { paymentMethodCode, signFirstInCodeFallback } from '../../models/PaymentMethod';
 import { fetchApi } from '../../shared/fetchApi/index';
 const SepayController = {

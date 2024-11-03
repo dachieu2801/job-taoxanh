@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 import dotenv from "dotenv";
+import { sendErrorResponse } from '../type/response';
 dotenv.config();
 
 export const validationMiddleware = (schema: Joi.ObjectSchema) => {
@@ -24,4 +25,9 @@ export const authToken = (req: any, res: Response, next: NextFunction) => {
   } else {
     res.redirect('/admin/login');
   }
+};
+
+export const errorHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(error);  
+  sendErrorResponse(res, error);  
 };

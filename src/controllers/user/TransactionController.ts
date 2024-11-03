@@ -4,7 +4,7 @@ import Service from "../../models/Service";
 import Cart from "../../models/Cart";
 import Transaction, { status, statusPayment } from "../../models/Transaction";
 import PaymentMethod from "../../models/PaymentMethod";
-import { sendErrorResponse } from "../../shared/type";
+import { sendErrorResponse } from "../../shared/type/request";
 import mongoose, { isValidObjectId } from "mongoose";
 
 const TransactionController = {

@@ -5,7 +5,8 @@ import TransactionController from "../../controllers/user/TransactionController"
 import OtpController from "../../controllers/user/OtpController";
 import SepayController from "../../controllers/sepay/SepayController";
 import { validationMiddleware } from "../../shared/middlewares/index";
-import { fallbackSepayApiInput, optApiInput } from "../../shared/type/index";
+import { fallbackSepayApiInput, optApiInput } from "../../shared/type/request";
+import { errorHandler } from '../../shared/middlewares/index';
 
 const router: Router = Router();
 
@@ -24,4 +25,7 @@ router.post(
 //trả thông tin dịch vụ
 router.get("/info/:hashTransaction", ServiceController.getInforServive);
 
+
+// Sử dụng middleware xử lý lỗi
+router.use(errorHandler);
 export default router;

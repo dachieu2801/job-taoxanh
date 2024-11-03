@@ -1,12 +1,12 @@
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import dayjs from 'dayjs';
 import dotenv from "dotenv";
 import Service, { ServiceInterface, UpdateServiceInput } from '../../models/Service';
 import UserAdmin, { UserAdminDTO } from '../../models/UserAdmin';
 import { verifyPassword } from '../../until/functions'
 import { TransactionRepository, fillterInterface } from '../../models/Transaction'
-import { sendErrorResponse } from '../../shared/type/index';
+import { sendErrorResponse } from '../../shared/type/request';
 
 dotenv.config();
 
@@ -37,7 +37,7 @@ const AdminController = {
     indexAdmin: (req: Request, res: Response) => {
         res.render("admin/dashboard", { title: "Admin", t: req.t.bind(req.i18n) });
     },
-    transactions: async (req: Request, res: Response) => {
+    transactions: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const fillter: fillterInterface = req.query
             const transactions = await TransactionRepository.filter(fillter);
@@ -47,11 +47,10 @@ const AdminController = {
                 t: req.t.bind(req.i18n),
             });
         } catch (error) {
-            console.error(error);
-            sendErrorResponse(res, error);
+            next(error)
         }
     },
-    createService: async (req: Request, res: Response) => {
+    createService: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const serviceInput: ServiceInterface = req.body
             const service = new Service(serviceInput);
@@ -61,7 +60,7 @@ const AdminController = {
             })
         } catch (error) {
             console.error(error);
-            sendErrorResponse(res, error);
+            next(error)
         }
     },
     services: async (req: Request, res: Response) => {
@@ -77,9 +76,12 @@ const AdminController = {
     },
     editService: async (req: Request, res: Response) => {
         const updateService: UpdateServiceInput = req.body
+        console.log(updateService);
         try {
             const service = await Service.findOneAndUpdate({ _id: updateService._id }, updateService);
-
+            res.status(200).json({
+                service
+            })
         } catch (error) {
             console.error(error);
             sendErrorResponse(res, error);

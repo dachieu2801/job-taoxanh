@@ -1,6 +1,9 @@
 import { Response } from 'express';
 import Joi from 'joi';
 import { verifyImei } from "../../until/functions";
+import  { ObjectId } from 'mongoose';
+
+const regexPhone = /^(03|05|07|08|09)\d{8}$/
 
 export const sendErrorResponse = (res: Response, err: any) => {
     res.status(500).json({
@@ -28,7 +31,7 @@ export const fallbackSepayApiInput = Joi.object({
 
 export const optApiInput = Joi.object({
     phone: Joi.string()
-        .pattern(/^(03|05|07|08|09)\d{8}$/)
+        .pattern(regexPhone)
         .required()
         .messages({
             'string.pattern.base': 'Please enter a valid phone number.',
@@ -41,7 +44,7 @@ export const verifyOtpApiInput = Joi.compile(Joi.object({
         'any.required': 'OTP is required.',
     }),
     phone: Joi.string()
-        .pattern(/^(03|05|07|08|09)\d{8}$/)
+        .pattern(regexPhone)
         .required()
         .messages({
             'string.pattern.base': 'Phone number must be a valid Vietnamese phone number.',
@@ -62,3 +65,30 @@ export const verifyOtpApiInput = Joi.compile(Joi.object({
         'any.required': 'Services code is required.',
     }),
 }));
+
+//admin 
+
+export const loginRequest = Joi.object({
+    username: Joi.string().required(),
+    password: Joi.string().required()
+})
+
+export const createServiceRequest = Joi.object({
+    name: Joi.string().required(),
+    price: Joi.number().required(),
+    code: Joi.string().required(),
+    api: Joi.string(),
+    api_key: Joi.string(),
+    status: Joi.string().valid('active', 'inactive').required()
+})
+
+
+export const updateServiceRequest = Joi.object({
+    _id: Joi.string().required(),
+    name: Joi.string(),
+    price: Joi.number(),
+    code: Joi.string(),
+    api: Joi.string(),
+    api_key: Joi.string(),
+    status: Joi.string().valid('active', 'inactive')
+})

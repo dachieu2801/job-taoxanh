@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import dayjs from 'dayjs';
 import { OtpRepository } from '../../models/Otp';
 import Transaction, { TransactionRepository } from '../../models/Transaction';
-import { sendErrorResponse } from '../../shared/type';
+import { sendErrorResponse } from '../../shared/type/request';
 
 const OtpController = {
     senOtp: async (req: Request, res: Response) => {

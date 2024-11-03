@@ -19,7 +19,7 @@ export interface UpdateServiceInput {
   price: number;
   api?: string;
   api_key?: string;
-  status: 'active'| 'inactive';
+  status?: 'active'| 'inactive';
 }
 
 const ServiceSchema: Schema = new Schema({
